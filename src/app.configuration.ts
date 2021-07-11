@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as fs from 'fs';
 
 export const appConfiguration = (configService: ConfigService) => ({
   cors: {
@@ -68,9 +69,19 @@ export const initializeSwagger = (
       },
       'redisSessionCookie',
     )
-    .setBasePath(appBaseUrl)
+    .addServer(appBaseUrl)
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
+  const writeSwaggerJson = (path: string, document) => {
+    fs.writeFileSync(
+      `${path}/swagger.json`,
+      JSON.stringify(document, null, 2),
+      {
+        encoding: 'utf8',
+      },
+    );
+  };
+  writeSwaggerJson(`${process.cwd()}`, document);
   SwaggerModule.setup('api', app, document);
 };
