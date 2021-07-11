@@ -60,7 +60,9 @@
   "paths": {
     "/booking": {
       "post": {
-        "operationId": "PaymentController_payForBooking",
+        "operationId": "payForBooking",
+        "summary": "Pay for booking",
+        "description": "Paying for booking",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -73,8 +75,14 @@
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "Successfully paid for tickets"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "500": {
+            "description": "Something went terribly wrong"
           }
         },
         "tags": [

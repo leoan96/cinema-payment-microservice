@@ -1,5 +1,19 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { BackendApiGuard } from 'src/guard/backend-api.guard';
 import { ValidationPipe } from 'src/pipe/validation.pipe';
 import { PaymentDTO } from './dto/payment.dto';
@@ -21,6 +35,21 @@ export class PaymentController {
 
   @Post('booking')
   @ApiBearerAuth('backendToken')
+  @ApiOperation({
+    operationId: 'payForBooking',
+    summary: 'Pay for booking',
+    description: 'Paying for booking',
+  })
+  @ApiOkResponse({
+    description: 'Successfully paid for tickets',
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid input data',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Something went terribly wrong',
+  })
+  @HttpCode(HttpStatus.OK)
   @UseGuards(BackendApiGuard)
   async payForBooking(
     @Body(new ValidationPipe()) paymentDto: PaymentDTO,
