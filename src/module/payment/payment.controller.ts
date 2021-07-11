@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { BackendApiGuard } from 'src/guard/backend-api.guard';
 import { ValidationPipe } from 'src/pipe/validation.pipe';
 import { PaymentDTO } from './dto/payment.dto';
 import { PaymentDocument } from './payment.schema';
@@ -20,6 +21,7 @@ export class PaymentController {
 
   @Post('booking')
   @ApiBearerAuth('backendToken')
+  @UseGuards(BackendApiGuard)
   async payForBooking(
     @Body(new ValidationPipe()) paymentDto: PaymentDTO,
   ): Promise<PaymentDocument> {
