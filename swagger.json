@@ -1,0 +1,91 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Payment API",
+    "description": "Payment service for movie tickets",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "payment",
+      "description": ""
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:3002"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "backendToken": {
+        "scheme": "bearer",
+        "bearerFormat": "token",
+        "type": "http",
+        "description": "Auth for bearer token",
+        "in": "header"
+      },
+      "redisSessionCookie": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "apiKey",
+        "description": "Auth for redis session",
+        "in": "cookie",
+        "name": "connect.sid"
+      }
+    },
+    "schemas": {
+      "PaymentDTO": {
+        "type": "object",
+        "properties": {
+          "totalPrice": {
+            "type": "number",
+            "description": "Total Price",
+            "example": "20.21"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Transaction Id",
+            "example": "319df989-ec01-48b9-967d-64a68775aaf0"
+          }
+        },
+        "required": [
+          "totalPrice",
+          "transactionId"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/booking": {
+      "post": {
+        "operationId": "PaymentController_payForBooking",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payment"
+        ],
+        "security": [
+          {
+            "backendToken": []
+          }
+        ]
+      }
+    }
+  }
+}
