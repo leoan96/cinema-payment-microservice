@@ -97,7 +97,7 @@ This is an example of how to list things you need to use the software and how to
 
 ## Usage
 
-You can utilize the api endpoints using either Postman or visiting http://localhost:3002/api
+You can utilize the api endpoints using either Postman or visiting http://localhost:3003/api
 
 To use any endpoints from this or other microservices that require authorization, please use this cinema-account-microservice's login endpoint
 
